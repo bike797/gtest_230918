@@ -26,7 +26,6 @@ public:
 //  단점: 픽스쳐 설치의 과정이 테스트 케이스 외부에 존재하기 때문에
 //       테스트케이스만으로 테스트 코드를 분석하기 어려울 수 있습니다.
 
-// 1) 테스트스위트 클래스를 testing::Test 자식 클래스로 만듭니다.
 class CalcTest : public testing::Test {
 protected:
     Calc* calc;
@@ -38,7 +37,6 @@ protected:
     }
 };
 
-// 2) TEST_F를 통해 테스트 케이스를 정의합니다.
 TEST_F(CalcTest, PressPlus)
 {
     SPEC("10 더하기 10을 하였을 때, 20의 결과가 디스플레이 되는지 검증한다.");
