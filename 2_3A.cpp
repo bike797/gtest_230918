@@ -5,10 +5,10 @@ class Calc {
 public:
     double Display() { return 0.0; }
 
-    void Enter(double n) {}
-    void PressPlus() {}
-    void PressMinus() {}
-    void PressEquals() {}
+    void Enter(double n) { }
+    void PressPlus() { }
+    void PressMinus() { }
+    void PressEquals() { }
 };
 
 #include <gtest/gtest.h>
