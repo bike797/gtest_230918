@@ -8,3 +8,6 @@ int main(int argc, char** argv)
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+// $ g++ 1_시작.cpp -std=c++14 -I ./googletest/googletest/include -L. -lgtest -pthread
+// $ ./a.out
