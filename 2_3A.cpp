@@ -21,5 +21,30 @@ public:
 TEST(CalcTest, PressPlus)
 {
     // 아래 매크로 함수를 통해 테스트를 명시적으로 실패할 수 있습니다.
-    FAIL();
+    //  > 실패의 이유를 함께 작성해야 합니다.
+    FAIL() << "작성 중입니다.";
+}
+
+// 2. TestCase 구성하는 방법 - 3A
+// 1) Arrange: 테스트 대상 코드를 초기화하고, 필요한 경우 설정하고 준비합니다.
+// 2) Act: 테스트 대상 코드에 작용을 가합니다.
+// 3) Assert: 기대하는 바를 단언합니다.
+
+TEST(CalcTest, PressPlus2)
+{
+    // Arrange
+    Calc* calc = new Calc;
+
+    // Act
+    calc->Enter(10);
+    calc->PressPlus();
+    calc->Enter(10);
+    calc->PressEquals();
+
+    // Assert
+    if (calc->Display() != 20) {
+        FAIL() << "10 더하기 10을 하였을 때";
+    } else {
+        SUCCEED();
+    }
 }
