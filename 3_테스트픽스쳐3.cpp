@@ -1,8 +1,10 @@
 // 3_테스트픽스쳐2.cpp
+#include <iostream>
 class Calc {
 public:
     // 요구사항 변경
     Calc(int n) { }
+    ~Calc() { std::cout << "~Calc()" << std::endl; }
 
     double Display() { return 0.0; }
 
@@ -17,7 +19,7 @@ public:
 #define SPEC(msg) printf("[SPEC] %s\n", msg)
 
 // 2. Text Fixture 설치하는 방법
-//  3) Implicit Set Up(암묵적 설치)
+//  3) Implicit Set Up/Tear Down(암묵적 설치/해체)
 //  => xUnit Test Framework가 제공하는 기능입니다.
 //  방법: 여러 테스트케이스에서 같은 테스트 픽스쳐 설치의 코드를 암묵적으로 호출되는
 //      함수를 통해서 처리합니다.
@@ -35,6 +37,14 @@ protected:
         std::cout << "SetUp()" << std::endl;
         calc = new Calc { 0 };
     }
+
+    // 픽스쳐를 해체할 때 사용하는 함수입니다.
+    // => 테스트 성공/실패와 상관없이 항상 호출됩니다.
+    void TearDown() override
+    {
+        std::cout << "TearDown()" << std::endl;
+        delete calc;
+    }
 };
 
 TEST_F(CalcTest, PressPlus)
@@ -49,6 +59,9 @@ TEST_F(CalcTest, PressPlus)
 
     // Assert
     ASSERT_EQ(calc->Display(), 20) << "10 더하기 10 하였을 때";
+    // 단언문이 실패할 경우, 이후의 코드는 수행되지 않고, 테스트는 실패합니다.
+
+    // delete calc;
 }
 
 TEST_F(CalcTest, PressMinus)
@@ -59,4 +72,6 @@ TEST_F(CalcTest, PressMinus)
     calc->PressEquals();
 
     ASSERT_EQ(calc->Display(), 0) << "10 빼기 10 하였을 때";
+
+    // delete calc;
 }
