@@ -67,3 +67,20 @@ TEST(SampleTest2, Sample1)
     // EXPECT_STREQ(s3, s4);
     EXPECT_STRCASEEQ(s3, s4);
 }
+
+// 4. 부동소수점 비교 단언문
+//  EXPECT_FLOAT_EQ / NE
+//  EXPECT_DOUBLE_EQ / NE
+
+//  * 오차 범위를 직접 지정하고 싶다면
+//  EXPECT_NEAR(a, b, 오차범위)
+
+TEST(SampleTest3, Sample1)
+{
+    double a = 0.7;
+    double b = 0.1 * 7;
+
+    // EXPECT_EQ(a, b);
+    EXPECT_DOUBLE_EQ(a, b);
+    EXPECT_NEAR(a, b, 0.00000000001);
+}
