@@ -2,7 +2,7 @@
 class Calc {
 public:
     // 요구사항 변경
-    Calc(int n) { }
+    // Calc(int n) { }
 
     double Display() { return 0.0; }
 

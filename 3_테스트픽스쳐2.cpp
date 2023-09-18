@@ -2,7 +2,7 @@
 class Calc {
 public:
     // 요구사항 변경
-    // Calc(int n) { }
+    Calc(int n) { }
 
     double Display() { return 0.0; }
 
@@ -26,7 +26,7 @@ public:
 class CalcTest : public testing::Test {
 protected:
     // * 테스트케이스는 자식 클래스로 만들어지기 때문에, private은 접근이 불가능합니다.
-    Calc* CreateCalc() { return new Calc; }
+    Calc* CreateCalc() { return new Calc { 0 }; }
 };
 
 // 2) TEST_F를 통해 테스트 케이스를 정의합니다.
