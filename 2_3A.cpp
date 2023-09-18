@@ -20,5 +20,6 @@ public:
 //    Test 또는 Spec 접미를 붙이는 형태로 많이 사용합니다.
 TEST(CalcTest, PressPlus)
 {
-
+    // 아래 매크로 함수를 통해 테스트를 명시적으로 실패할 수 있습니다.
+    FAIL();
 }
