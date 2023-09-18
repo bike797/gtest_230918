@@ -44,9 +44,9 @@ public:
 //  => 1.10 이후에 통일되었습니다.
 //  1.10 이후(xUnit Test Framework)
 //   Test Suite
-//    - TestCase
-//    - TestCase
-//    - TestCase
+//    - TestCase / Test
+//    - TestCase / Test
+//    - TestCase / Test
 
 //  1.10 이전
 //    Test Case
