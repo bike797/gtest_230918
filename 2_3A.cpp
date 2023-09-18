@@ -47,6 +47,7 @@ TEST(CalcTest, PressPlus)
 //       최소화해야 합니다.
 
 //  3) 신뢰성
+//   - 테스트의 결과를 신뢰할 수 있는가?
 
 #define SPEC(msg) printf("[SPEC] %s\n", msg)
 
