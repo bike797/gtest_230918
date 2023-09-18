@@ -16,8 +16,8 @@ int goo() { return 100; }
 TEST(SampleTest, Sample1)
 {
     // ...
-    ASSERT_EQ(foo(), 4);
-    ASSERT_EQ(goo(), 10);
+    ASSERT_EQ(foo(), 42);
+    ASSERT_EQ(goo(), 100);
 }
 
 // 2. EXPECT_XXX
@@ -28,8 +28,8 @@ TEST(SampleTest, Sample1)
 TEST(SampleTest, Sample2)
 {
     // ...
-    EXPECT_EQ(foo(), 4);
-    EXPECT_EQ(goo(), 10);
+    EXPECT_EQ(foo(), 42);
+    EXPECT_EQ(goo(), 100);
 }
 
 class User {
@@ -49,4 +49,21 @@ TEST(SampleTest, Sample3)
     ASSERT_NE(user, nullptr); // 왜 ASSERT로 작성되어야 하는지를 이해해야 합니다.
     EXPECT_EQ(user->GetName(), "Tom");
     // 널 참조로 인해, 테스트 프로그램이 비정상 종료할 수 있습니다.
+}
+
+// 3. C 문자열 비교 단언문
+//   C 문자열: 널 문자('\0')로 종료하는 char 배열
+//   EXPECT_STREQ / NE
+//   EXPECT_STRCASEEQ / STRCASENE => 대소문자 무시
+TEST(SampleTest2, Sample1)
+{
+    std::string s1 = "hello";
+    std::string s2 = "hello";
+    EXPECT_EQ(s1, s2);
+
+    const char* s3 = "HELLO";
+    const char* s4 = s1.c_str();
+    // EXPECT_EQ(s3, s4); // !!!
+    // EXPECT_STREQ(s3, s4);
+    EXPECT_STRCASEEQ(s3, s4);
 }
