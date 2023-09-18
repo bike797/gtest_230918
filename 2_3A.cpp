@@ -30,8 +30,29 @@ TEST(CalcTest, PressPlus)
 // 2) Act: 테스트 대상 코드에 작용을 가합니다.
 // 3) Assert: 기대하는 바를 단언합니다.
 
+// 3. 좋은 단위 테스트
+//  1) 가독성
+//     - 테스트 코드의 구성
+//     - 테스트 케이스의 이름
+//      : 어떤 시나리오로 테스트가 수행되는가
+//     - 테스트 케이스의 실패
+//      : 테스트가 실패하였을 때, 왜 실패하였는지?
+
+//  2) 유지보수성
+//    - 테스트 코드도 유지보수의 대상입니다.
+//    => 테스트 코드의 유지보수의 비용을 최소화해야 합니다.
+//       오류가 발생할 가능성이 있는 코드는 테스트케이스 안에서
+//       지양해야 합니다.
+//       제어 구문(조건문, 반복문, 예외 처리)의 코드의 발생을
+//       최소화해야 합니다.
+
+//  3) 신뢰성
+
+#define SPEC(msg) printf("[SPEC] %s\n", msg)
+
 TEST(CalcTest, PressPlus2)
 {
+    SPEC("10 더하기 10을 하였을 때, 20의 결과가 디스플레이 되는지 검증한다.");
     // Arrange
     Calc* calc = new Calc;
 
@@ -42,9 +63,14 @@ TEST(CalcTest, PressPlus2)
     calc->PressEquals();
 
     // Assert
+#if 0
     if (calc->Display() != 20) {
-        FAIL() << "10 더하기 10을 하였을 때";
+        FAIL() << "10 더하기 10을 하였을 때, 결과가 일치하지 않음.";
     } else {
         SUCCEED();
     }
+#endif
+    // xUnit Test Framework는 다양한 단언문을 제공하고 있습니다.
+    //  : ASSERT_EQ/NE/LT/GT/LE/GE ...
+    ASSERT_EQ(calc->Display(), 20) << "10 더하기 10 하였을 때";
 }
