@@ -35,6 +35,25 @@ public:
 //       이후의 테스트의 결과를 신뢰할 수 없는 "변덕스러운 테스트" 문제가 발생할 수 있습니다.
 //       : "신뢰성"
 
+// => 공유 픽스쳐의 전략을 사용할 때, 변덕스러운 테스트의 문제가 발생할 경우,
+//    문제를 발생시키는 테스트 케이스를 찾아야 합니다.
+//   : 테스트 스위트 분리합니다.
+//     30 => 15 + 15 => 15 + 8 + 7
+
+// Google Test는 xUnit Test Framework이 사용하는 용어와 차이가 있었습니다.
+//  => 1.10 이후에 통일되었습니다.
+//  1.10 이후(xUnit Test Framework)
+//   Test Suite
+//    - TestCase
+//    - TestCase
+//    - TestCase
+
+//  1.10 이전
+//    Test Case
+//    - Test
+//    - Test
+//    - Test
+
 class TerminalTest : public testing::Test {
 public:
     static Terminal* ts;
