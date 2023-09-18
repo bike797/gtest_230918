@@ -30,6 +30,7 @@ TEST_F(ImageProcessorTest, BlurImage)
 // 신선한 픽스쳐 전략
 // => 각 테스트케이스마다 새로운 객체를 생성하고 파괴하는 형태로 테스트케이스가 수행됩니다.
 /*
+// ==> Suite Fixture SetUp
 ImageProcessorTest* ts = new ImageProcessorTest();
 ts->SetUp();
 ts->ResizeImage();
@@ -41,4 +42,5 @@ ts->SetUp();
 ts->BlurImage();
 ts->TearDown();
 delete ts;
+// ==> Suite Fixture TearDown
 */

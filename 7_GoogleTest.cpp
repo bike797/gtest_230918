@@ -47,6 +47,6 @@ TEST(ImageProcessTest, goo) { FAIL(); }
 TEST(ImageProcessTest, hoo) { }
 
 // 3. 반복 / 무작위 순서 테스트
-// $ ./a.out --gtest_repeat=10 --gtest_shuffle --gtest_break_on_failure
+// $ ./a.out - --gtest_shuffle-gtest_repeat=10 --gtest_break_on_failure
 // => 단위 테스트는 반복적으로 어떤 순서로 수행되어도
 //    항상 동일한 결과가 나와야 합니다.
