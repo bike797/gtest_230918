@@ -35,6 +35,9 @@ public:
 // 3단계: 기대 결과를 확인합니다. => TestBody
 // 4단계: 테스트 픽스쳐를 해체해서, 테스트 시작 이전의 상태로 돌려 놓습니다. => TearDown
 
+// 테스트 스위트 클래스
+//  정의: 동일한 테스트 픽스쳐를 공유하는 테스트 케이스의 집합
+
 class CalcTest : public testing::Test {
 protected:
     Calc* calc;
