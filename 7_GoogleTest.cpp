@@ -29,6 +29,14 @@ TEST_F(DISABLED_SampleTest, hoo) { }
 //  => 테스트 이름을 잘 구성하는 것이 효과적입니다.
 // $ ./a.out --gtest_filter=ImageTest.ResizeImage
 
+// - 여러 개를 :을 통해서 나열할 수 있습니다.
+// $ ./a.out --gtest_filter=ImageTest.ResizeImage:ImageTest.BlurImage
+// $ ./a.out --gtest_filter=ImageProcessTest.*
+// $ ./a.out --gtest_filter=Image*.foo
+
+// - 앞의 조건에서 제외할 수 있습니다.
+// $ ./a.out --gtest_filter=Image*.foo:-ImageProcessTest.foo
+
 TEST(ImageTest, ResizeImage) { }
 TEST(ImageTest, BlurImage) { }
 TEST(ImageTest, foo) { }
