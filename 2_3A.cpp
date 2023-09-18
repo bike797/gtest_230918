@@ -26,9 +26,9 @@ TEST(CalcTest, PressPlus)
 }
 
 // 2. TestCase 구성하는 방법 - 3A
-// 1) Arrange: 테스트 대상 코드를 초기화하고, 필요한 경우 설정하고 준비합니다.
-// 2) Act: 테스트 대상 코드에 작용을 가합니다.
-// 3) Assert: 기대하는 바를 단언합니다.
+// 1) Arrange/Given: 테스트 대상 코드를 초기화하고, 필요한 경우 설정하고 준비합니다.
+// 2)      Act/When: 테스트 대상 코드에 작용을 가합니다.
+// 3)   Assert/Then: 기대하는 바를 단언합니다.
 
 // 3. 좋은 단위 테스트
 //  1) 가독성
@@ -48,6 +48,10 @@ TEST(CalcTest, PressPlus)
 
 //  3) 신뢰성
 //   - 테스트의 결과를 신뢰할 수 있는가?
+
+// 3. BDD(Behavior Driven Development)
+//   1) 가독성 => 용어을 사람이 사용하는 자연어와 유사하게 구성합니다.
+//   2) 상태 검증 / 행위 검증
 
 #define SPEC(msg) printf("[SPEC] %s\n", msg)
 
