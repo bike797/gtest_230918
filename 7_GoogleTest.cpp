@@ -36,7 +36,6 @@ TEST_F(DISABLED_SampleTest, hoo) { }
 
 // - 앞의 조건에서 제외할 수 있습니다.
 // $ ./a.out --gtest_filter=Image*.foo:-ImageProcessTest.foo
-
 TEST(ImageTest, ResizeImage) { }
 TEST(ImageTest, BlurImage) { }
 TEST(ImageTest, foo) { }
@@ -44,5 +43,10 @@ TEST(ImageTest, goo) { }
 TEST(ImageTest, hoo) { }
 
 TEST(ImageProcessTest, foo) { }
-TEST(ImageProcessTest, goo) { }
+TEST(ImageProcessTest, goo) { FAIL(); }
 TEST(ImageProcessTest, hoo) { }
+
+// 3. 반복 / 무작위 순서 테스트
+// $ ./a.out --gtest_repeat=10 --gtest_shuffle --gtest_break_on_failure
+// => 단위 테스트는 반복적으로 어떤 순서로 수행되어도
+//    항상 동일한 결과가 나와야 합니다.
