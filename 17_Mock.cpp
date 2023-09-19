@@ -55,6 +55,7 @@ class MockDLoggerTarget : public DLoggerTarget {
 public:
     // void Write(Level level, const std::string& message) override
 
+    // - Mocking
     // MOCK_METHOD{인자개수}(메소드 이름, 메소드 타입)
     MOCK_METHOD2(Write, void(Level level, const std::string& message));
 };
