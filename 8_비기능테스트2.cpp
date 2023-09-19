@@ -16,6 +16,7 @@ public:
         std::cout << "Draw Image: " << url << std::endl;
     }
 
+#ifdef GTEST_LEAK_TEST
     static int allocCount;
     void* operator new(size_t size)
     {
@@ -28,9 +29,12 @@ public:
         --allocCount;
         free(p);
     }
+#endif
 };
 
+#ifdef GTEST_LEAK_TEST
 int Image::allocCount = 0;
+#endif
 
 // SUT에 대해서 메모리 누수가 발생하는지 여부를 검증하고 싶습니다.
 //  1) SUT의 클래스의 메모리 할당/해지 연산을 재정의합니다.
@@ -69,15 +73,22 @@ protected:
 
     void SetUp() override
     {
+#ifdef GTEST_LEAK_TEST
         allocCount = Image::allocCount;
+#endif
     }
 
     void TearDown() override
     {
+#ifdef GTEST_LEAK_TEST
         int diff = Image::allocCount - allocCount;
         EXPECT_EQ(diff, 0) << diff << " object(s) leaks";
+#endif
     }
 };
+
+// $ build.sh 8_비기능테스 트2.cpp -DGTEST_LEAK_TEST
+// => 테스트 코드 안에서만 메모리 관련 코드가 빌드됩니다.
 
 TEST_F(ImageTest, DrawImage)
 {
