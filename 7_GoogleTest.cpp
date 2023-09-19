@@ -36,8 +36,7 @@ TEST_F(DISABLED_SampleTest, hoo) { }
 
 // - 앞의 조건에서 제외할 수 있습니다.
 // $ ./a.out --gtest_filter=Image*.foo:-ImageProcessTest.foo
-TEST(ImageTest, ResizeImage) { }
-TEST(ImageTest, BlurImage) { }
+
 TEST(ImageTest, foo) { }
 TEST(ImageTest, goo) { }
 TEST(ImageTest, hoo) { }
@@ -53,3 +52,32 @@ TEST(ImageProcessTest, hoo) { }
 // => "변덕스러운 테스트"를 확인하는 목적으로 위의 옵션을 활용합니다.
 //   : 테스트의 결과가 일정하지 않습니다.
 //     테스트의 결과를 신뢰할 수 없습니다.
+
+// 4. 테스트 결과 포맷터(Test Result Formatter)
+// : 테스트의 결과를 XML 형식으로 export 기능을 제공합니다.
+// $ ./a.out --gtest_output=xml
+//  => 표준 xUnit Test Framework 포맷입니다.
+
+// $ ./a.out --gtest_output=json
+//  => Google Test 1.10 이후
+
+// 5. 추가적인 정보도 기록할 수 있습니다.
+//    : RecordProperty(key, msg)
+
+#define SPEC(msg)                    \
+    do {                             \
+        printf("[SPEC] %s\n", msg);  \
+        RecordProperty("spec", msg); \
+    } while (0)
+
+TEST(ImageTest, ResizeImage)
+{
+    SPEC("이미지를 리사이즈 합니다.");
+    RecordProperty("cpu", "50%");
+}
+
+TEST(ImageTest, BlurImage)
+{
+    SPEC("이미지를 블러 합니다.");
+    RecordProperty("cpu", "10%");
+}

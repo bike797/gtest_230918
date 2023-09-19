@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="8" failures="1" disabled="0" errors="0" time="0." timestamp="2023-09-19T00:12:12.513" name="AllTests">
+  <testsuite name="ImageTest" tests="5" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2023-09-19T00:12:12.513">
+    <testcase name="foo" file="7_GoogleTest.cpp" line="40" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageTest" />
+    <testcase name="goo" file="7_GoogleTest.cpp" line="41" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageTest" />
+    <testcase name="hoo" file="7_GoogleTest.cpp" line="42" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageTest" />
+    <testcase name="ResizeImage" file="7_GoogleTest.cpp" line="73" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageTest">
+      <properties>
+        <property name="spec" value="이미지를 리사이즈 합니다."/>
+        <property name="cpu" value="50%"/>
+      </properties>
+    </testcase>
+    <testcase name="BlurImage" file="7_GoogleTest.cpp" line="79" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageTest">
+      <properties>
+        <property name="spec" value="이미지를 블러 합니다."/>
+        <property name="cpu" value="10%"/>
+      </properties>
+    </testcase>
+  </testsuite>
+  <testsuite name="ImageProcessTest" tests="3" failures="1" disabled="0" skipped="0" errors="0" time="0." timestamp="2023-09-19T00:12:12.513">
+    <testcase name="foo" file="7_GoogleTest.cpp" line="44" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageProcessTest" />
+    <testcase name="goo" file="7_GoogleTest.cpp" line="45" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageProcessTest">
+      <failure message="7_GoogleTest.cpp:45&#x0A;Failed&#x0A;" type=""><![CDATA[7_GoogleTest.cpp:45
+Failed
+]]></failure>
+    </testcase>
+    <testcase name="hoo" file="7_GoogleTest.cpp" line="46" status="run" result="completed" time="0." timestamp="2023-09-19T00:12:12.513" classname="ImageProcessTest" />
+  </testsuite>
+</testsuites>
