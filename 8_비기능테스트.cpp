@@ -21,9 +21,9 @@ void Connect(const std::string& host)
 
 #define EXPECT_TIMEOUT(fn, limit)                                                \
     do {                                                                         \
-        time_t startTime = time(nullptr);                                        \
+        time_t __startTime = time(nullptr);                                      \
         fn;                                                                      \
-        time_t duration = time(nullptr) - startTime;                             \
+        time_t __duration = time(nullptr) - __startTime;                         \
         EXPECT_LE(duration, limit) << "Timeout: " << limit << " second(s) 초과"; \
     } while (0)
 
