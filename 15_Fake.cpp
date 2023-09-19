@@ -71,6 +71,13 @@ public:
     }
 };
 
+// 1) 사용자 정의 객체를 단언문을 통해 검증하기 위해서는
+//    해당하는 연산자에 대한 오버로딩이 반드시 제공되어야 합니다.
+bool operator==(const User& lhs, const User& rhs)
+{
+    return lhs.GetName() == rhs.GetName() && lhs.GetAge() == rhs.GetAge();
+}
+
 TEST(RespositoryTest, Save)
 {
     FakeDatebase fake;
@@ -82,5 +89,5 @@ TEST(RespositoryTest, Save)
     repo.Save(&expected);
     User* actual = repo.Load(testName);
 
-    EXPECT_EQ(expected, *actual);
+    EXPECT_EQ(expected, *actual); // ==
 }
