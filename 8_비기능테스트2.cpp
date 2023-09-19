@@ -22,6 +22,8 @@ bool DrawImage(const std::string& url)
     Image* p = new Image(url);
     p->Draw();
 
+    //...
+
     return true;
 }
 
