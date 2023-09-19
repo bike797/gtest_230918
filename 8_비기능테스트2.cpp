@@ -87,7 +87,7 @@ protected:
     }
 };
 
-// $ build.sh 8_비기능테스 트2.cpp -DGTEST_LEAK_TEST
+// $ build.sh 8_비기능테스트2.cpp -DGTEST_LEAK_TEST
 // => 테스트 코드 안에서만 메모리 관련 코드가 빌드됩니다.
 
 TEST_F(ImageTest, DrawImage)
