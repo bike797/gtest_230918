@@ -34,8 +34,16 @@ public:
 
 TEST(LoggerTest, IsValidLogFilename_NameLonggerThan5Chars_ReturnsTrue)
 {
+    Logger logger;
+    std::string validFilename = "valid.log";
+
+    EXPECT_TRUE(logger.IsValidLogFilename(validFilename)) << "확장자를 제외한 파일명이 다섯글자 이상일 때";
 }
 
 TEST(LoggerTest, IsValidLogFilename_NameShorterThan5Chars_ReturnsFalse)
 {
+    Logger logger;
+    std::string invalidFilename = "bad.log";
+
+    EXPECT_FALSE(logger.IsValidLogFilename(invalidFilename)) << "확장자를 제외한 파일명이 다섯글자 미만일 때";
 }
