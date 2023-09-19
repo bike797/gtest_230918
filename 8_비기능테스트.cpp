@@ -19,12 +19,12 @@ void Connect(const std::string& host)
 //  Google Test에서 사용자 정의 단언문을 제공하기 위해서는
 //  매크로 함수를 통해서 제공해야 합니다.
 
-#define EXPECT_TIMEOUT(fn, limit)                                                \
-    do {                                                                         \
-        time_t __startTime = time(nullptr);                                      \
-        fn;                                                                      \
-        time_t __duration = time(nullptr) - __startTime;                         \
-        EXPECT_LE(duration, limit) << "Timeout: " << limit << " second(s) 초과"; \
+#define EXPECT_TIMEOUT(fn, limit)                                                  \
+    do {                                                                           \
+        time_t __startTime = time(nullptr);                                        \
+        fn;                                                                        \
+        time_t __duration = time(nullptr) - __startTime;                           \
+        EXPECT_LE(__duration, limit) << "Timeout: " << limit << " second(s) 초과"; \
     } while (0)
 
 TEST(ConnectTest, Connect)
