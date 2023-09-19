@@ -5,6 +5,7 @@
 // 1. testing::Values(1, 2, 3, 4, 5);
 // 2. testing::ValuesIn(data)
 // 3. testing::Range(start, end, step)
+//    [start, end)
 // 4. testing::Combine(
 //        testing::ValuesIn(cars), testing::ValuesIn(colors));
 class SampleTest : public testing::TestWithParam<int> {
