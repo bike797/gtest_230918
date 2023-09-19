@@ -21,6 +21,7 @@ using CarType = std::tuple<std::string, Color>;
 class CarTest : public testing::TestWithParam<CarType> {
 };
 
+// 2개 이상의 데이터 셋을 조합할 때는 testing::Combine을 이용하면 됩니다.
 INSTANTIATE_TEST_SUITE_P(CarValues, CarTest,
     testing::Combine(
         testing::ValuesIn(cars),
