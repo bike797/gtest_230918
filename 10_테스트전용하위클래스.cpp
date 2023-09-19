@@ -13,7 +13,10 @@
 
 class TestUser : public User {
 public:
-    int GetAge() const { return User::GetAge(); }
+    // int GetAge() const { return User::GetAge(); }
+
+    using User::GetAge;
+    // 부모가 제공하는 protected를 자식이 public 변경할 수 있습니다.
 };
 
 TEST(UserTest, foo)
