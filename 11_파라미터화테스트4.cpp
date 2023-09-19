@@ -11,6 +11,13 @@ Color colors[] = {
     Color::RED, Color::WHITE, Color::BLACK
 };
 
+std::vector<Color> LoadFromFile()
+{
+    return {
+        Color::RED, Color::WHITE, Color::BLACK
+    };
+}
+
 std::vector<std::string> cars = {
     "Sonata",
     "Avante",
@@ -30,7 +37,8 @@ INSTANTIATE_TEST_SUITE_P(CarValues, CarTest,
     testing::Combine(
         testing::ValuesIn(cars),
         // testing::Values(Color::RED, Color::WHITE, Color::BLACK)
-        testing::ValuesIn(colors)));
+        // testing::ValuesIn(colors)
+        testing::ValuesIn(LoadFromFile())));
 
 TEST_P(CarTest, Sample)
 {
