@@ -6,7 +6,8 @@ public:
     bool IsValidFilename(const std::string& name)
     {
         // 현재의 파일 시스템에서 적합한 이름인지 확인합니다.
-        return true;
+        // return true;
+        return false;
     }
 };
 
@@ -18,11 +19,13 @@ public:
     // hello.log  -> hello  -> O
     bool IsValidLogFilename(const std::string& filename)
     {
+        //------- 테스트 대상 코드
         size_t index = filename.find_last_of(".");
         std::string name = filename.substr(0, index);
         if (name.size() < 5) {
             return false;
         }
+        //------- 테스트 대상 코드
 
         FileSystem fs;
         return fs.IsValidFilename(filename);
