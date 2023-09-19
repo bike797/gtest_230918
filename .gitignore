@@ -1,5 +1,7 @@
 a.out
+a.exe   
 *.o
+*.a
 .DS_Store
 ~*.pptx
 .vscode/*
