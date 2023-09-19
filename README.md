@@ -11,6 +11,7 @@ $ rm v1.14.0.tar.gz
 $ mv googletest-1.14.0/ googletest
 ```
 
+## Google Test
 ```
 # gtest-all.cc
 $ g++ -c ./googletest/googletest/src/gtest-all.cc -I ./googletest/googletest/include -I ./googletest/googletest/ -std=c++14
@@ -20,4 +21,21 @@ $ g++ -c ./googletest/googletest/src/gtest_main.cc -I ./googletest/googletest/in
 
 # libgtest.a
 $ ar rcv libgtest.a gtest-all.o gtest_main.o
+```
+
+## Google Test + Google Mock
+- Google Mock은 Google Test에 의존성이 있습니다.
+```
+# gtest-all.cc
+$ g++ -c ./googletest/googletest/src/gtest-all.cc -I ./googletest/googletest/include -I ./googletest/googletest/ -std=c++14
+
+# gmock-all.cc
+$ g++ -c ./googletest/googlemock/src/gmock-all.cc -I ./googletest/googlemock/include -I ./googletest/googlemock -I ./googletest/googletest/include -std=c++14
+
+# gmock_main.cc
+$ g++ -c ./googletest/googlemock/src/gmock_main.cc -I ./googletest/googlemock/include -I ./googletest/googletest/include -std=c++14
+
+# libgtest.a
+$ ar rcv libgtest.a gtest-all.o gmock-all.o gmock_main.o
+
 ```
