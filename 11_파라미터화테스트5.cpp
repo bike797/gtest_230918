@@ -18,3 +18,16 @@ TEST_P(SampleTest, Sample)
 {
     std::cout << GetParam() << std::endl;
 }
+
+// * 구글 테스트가 제공하는 테스트케이스를 만드는 3가지 방법
+// 1) TEST(SampleTest, Sample) {}
+//  => 테스트 스위트 클래스를 명시적으로 제공하지 않습니다.
+
+// 2) TEST_F
+//    class SampleTest : public testing::Test {};
+//    TEST_F(SampleTest, Sample) {}
+
+// 3) TEST_P
+//    class SampleTest : public testing::TestWithParam<int> {};
+///   INSTANTIATE_TEST_SUITE_P(SampleValues, SampleTest, Values(1, 2, 3));
+//    TEST_P(SampleTest, Sample) { GetParam(); }
