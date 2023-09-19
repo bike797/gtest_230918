@@ -8,6 +8,12 @@
 // 4. testing::Combine(
 //        testing::ValuesIn(cars), testing::ValuesIn(colors));
 class SampleTest : public testing::TestWithParam<int> {
+public:
+    void SetUp() override { std::cout << "SetUp()" << std::endl; }
+    void TearDown() override { std::cout << "TearDown()" << std::endl; }
+
+    static void SetUpTestSuite() { std::cout << "SetUpTestSuite()" << std::endl; }
+    static void TearDownTestSuite() { std::cout << "TearDownTestSuite()" << std::endl; }
 };
 
 INSTANTIATE_TEST_SUITE_P(SampleValues, SampleTest,
