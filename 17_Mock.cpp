@@ -53,11 +53,15 @@ public:
 // Mock Framework을 이용해서, 테스트 대역(모의 객체)을 만들어야 합니다.
 class MockDLoggerTarget : public DLoggerTarget {
 public:
-    // void Write(Level level, const std::string& message) override
-
     // - Mocking
     // MOCK_METHOD{인자개수}(메소드 이름, 메소드 타입)
-    MOCK_METHOD2(Write, void(Level level, const std::string& message));
+    // MOCK_METHOD2(Write, void(Level level, const std::string& message));
+
+    // 1.10 이후로 Google Mock의 Mocking의 방법이 변경되었습니다.
+    // MOCK_METHOD(반환타입,메소드이름, (인자정보), (한정자 정보))
+
+    // void Write(Level level, const std::string& message) override
+    MOCK_METHOD(void, Write, (Level level, const std::string& message), (override));
 };
 
 // Google Mock은 Act 하기 전에 Assert를 먼저 작성해야 합니다.
