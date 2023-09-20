@@ -77,14 +77,22 @@ TEST(PersonTest, Sample2)
 }
 
 // 3) 함수 호출 인자
+// => Matcher
+
 void UsePerson3(Person* p)
 {
     p->Go(10, 20);
-    p->Go(11, 20);
+    p->Go(10, 20);
     p->Go(10, 20);
 }
 
 using testing::_;
+
+using testing::Eq; // ==
+using testing::Ge; // >=
+using testing::Gt; // >
+using testing::Le; // <=
+using testing::Lt; // <
 
 TEST(PersonTest, Sample3)
 {
@@ -94,7 +102,10 @@ TEST(PersonTest, Sample3)
     // EXPECT_CALL(mock, Go).Times(3); // 인자와 상관없이 3번 호출되는 것을 검증합니다.
 
     // 첫번째 인자가 10이고, 두번째 인자는 상관없이 3번 호출됩니다.
-    EXPECT_CALL(mock, Go(10, _)).Times(3);
+    // EXPECT_CALL(mock, Go(10, _)).Times(3);
+
+    // 첫번째 인자는 10이상이고, 두번째 인자는 21미만으로 3번 호출됩니다.
+    EXPECT_CALL(mock, Go(Ge(10), Lt(21))).Times(3);
 
     UsePerson3(&mock);
 }
