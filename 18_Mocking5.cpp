@@ -35,7 +35,7 @@ public:
 //-----
 // 의존성 주입
 // => 제품 코드를 사용하는 방식 그대로, 테스트도 수행할 수 있습니다.
-#if 1
+#if 0
 int main()
 {
     PacketReader reader;
@@ -45,16 +45,17 @@ int main()
 }
 #endif
 
-#if 0
+#if 1
 #include <gmock/gmock.h>
 
-class MockPacketStream : public IPacketStream {
+// 암묵적 인터페이스를 기반으로 Mocking을 수행해서, 테스트 대역을 만들 수 있습니다.
+class MockPacketStream {
 public:
-    // void AppendPacket(Packet* newPacket) override
-    MOCK_METHOD(void, AppendPacket, (Packet * newPacket), (override));
+    // void AppendPacket(Packet* newPacket)
+    MOCK_METHOD(void, AppendPacket, (Packet * newPacket));
 
-    // const Packet* GetPacket(size_t packetNumber) const override
-    MOCK_METHOD(const Packet*, GetPacket, (size_t packetNumber), (const, override));
+    // const Packet* GetPacket(size_t packetNumber) const
+    MOCK_METHOD(const Packet*, GetPacket, (size_t packetNumber), (const));
 };
 
 TEST(PacketReaderTest, Sample)
