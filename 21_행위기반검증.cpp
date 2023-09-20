@@ -128,13 +128,25 @@ TEST(PersonTest, Sample3)
     UsePerson3(&mock);
 }
 
+using testing::ElementsAre;
+using testing::ElementsAreArray;
+
 void UsePerson4(Person* p)
 {
+    p->Print({ 1, 1, 3 });
 }
 
 TEST(PersonTest, Sample4)
 {
     MockPerson mock;
+
+    // [0]: 10보다 작아야 합니다. -> Lt(10)
+    // [1]: 2 이상입니다.        -> Ge(2)
+    // [2]: 1보다 크고, 5보다 작거나 같아야 합니다. -> AllOf(Gt(1), Le(5))
+    // EXPECT_CALL(mock, Print(ElementsAre(Lt(10), Ge(2), AllOf(Gt(1), Le(5)))));
+
+    Matcher<int> data[] = { Lt(10), Ge(2), AllOf(Gt(1), Le(5)) };
+    EXPECT_CALL(mock, Print(ElementsAreArray(data)));
 
     UsePerson4(&mock);
 }
