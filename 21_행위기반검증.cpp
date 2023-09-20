@@ -83,7 +83,7 @@ void UsePerson3(Person* p)
 {
     p->Go(10, 20);
     p->Go(10, 20);
-    p->Go(8, 20);
+    p->Go(10, 20);
 }
 
 using testing::_;
@@ -93,6 +93,10 @@ using testing::Ge; // >=
 using testing::Gt; // >
 using testing::Le; // <=
 using testing::Lt; // <
+
+using testing::AllOf; // &&
+using testing::AnyOf; // ||
+using testing::Matcher;
 
 TEST(PersonTest, Sample3)
 {
@@ -105,7 +109,14 @@ TEST(PersonTest, Sample3)
     // EXPECT_CALL(mock, Go(10, _)).Times(3);
 
     // 첫번째 인자는 10이상이고, 두번째 인자는 21미만으로 3번 호출됩니다.
-    EXPECT_CALL(mock, Go(Ge(10), Lt(21))).Times(3);
+    // EXPECT_CALL(mock, Go(Ge(10), Lt(21))).Times(3);
+
+    // 첫번째 인자: 5 이상이고, 20 미만  => &&
+    Matcher<int> arg1 = AllOf(Ge(5), Lt(20));
+
+    // 두번째 인자: 0 미만이거나, 10 초과 => ||
+    Matcher<int> arg2 = AnyOf(Lt(0), Gt(10));
+    EXPECT_CALL(mock, Go(arg1, arg2)).Times(3);
 
     UsePerson3(&mock);
 }
