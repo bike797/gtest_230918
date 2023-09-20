@@ -24,12 +24,19 @@ void foo(StackInterface<int>* p)
     // p->Push(42);
 }
 
+template <typename T>
+void goo(StackInterface<T>* p)
+{
+    p->GetSize();
+}
+
 TEST(StackTest, Sample)
 {
     MockStackInterface<int> mock;
 
     EXPECT_CALL(mock, GetSize());
-    EXPECT_CALL(mock, Push(42));
+    // EXPECT_CALL(mock, Push(42));
 
-    foo(&mock);
+    // foo(&mock);
+    goo(&mock);
 }
