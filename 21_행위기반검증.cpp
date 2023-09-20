@@ -14,6 +14,8 @@ public:
 
     virtual void Go(int x, int y) = 0;
     virtual void Print(const std::vector<int>& numbers) = 0;
+
+    virtual void SetAddress(const std::string& address) = 0;
 };
 
 #include <gmock/gmock.h>
@@ -22,6 +24,7 @@ class MockPerson : public Person {
 public:
     MOCK_METHOD(void, Go, (int x, int y), (override));
     MOCK_METHOD(void, Print, (const std::vector<int>& numbers), (override));
+    MOCK_METHOD(void, SetAddress, (const std::string& address), (override));
 };
 
 // 행위 기반 검증
@@ -128,12 +131,17 @@ TEST(PersonTest, Sample3)
     UsePerson3(&mock);
 }
 
+// 순차적으로 매칭합니다.
 using testing::ElementsAre;
 using testing::ElementsAreArray;
 
+// 순서에 상관없이 매칭합니다.
+using testing::UnorderedElementsAre;
+using testing::UnorderedElementsAreArray;
+
 void UsePerson4(Person* p)
 {
-    p->Print({ 1, 2, 3 });
+    p->Print({ 3, 2, 1 });
 }
 
 TEST(PersonTest, Sample4)
@@ -146,7 +154,31 @@ TEST(PersonTest, Sample4)
     // EXPECT_CALL(mock, Print(ElementsAre(Lt(10), Ge(2), AllOf(Gt(1), Le(5)))));
 
     Matcher<int> data[] = { Lt(10), Ge(2), AllOf(Gt(1), Le(5)) };
-    EXPECT_CALL(mock, Print(ElementsAreArray(data)));
+    // EXPECT_CALL(mock, Print(ElementsAreArray(data)));
+
+    EXPECT_CALL(mock, Print(UnorderedElementsAreArray(data)));
 
     UsePerson4(&mock);
+}
+
+void UsePerson5(Person* p)
+{
+    p->SetAddress("Seoul   Gangnam");
+}
+
+using testing::Contains;
+using testing::ContainsRegex;
+using testing::EndsWith;
+using testing::HasSubstr;
+
+TEST(PersonTest, Sample5)
+{
+    MockPerson mock;
+
+    // 전달된 인자에 Seoul로 시작하는지 확인하고 싶습니다.
+    // EXPECT_CALL(mock, SetAddress(Contains("Seoul")));
+    // EXPECT_CALL(mock, SetAddress(HasSubstr("Gangnam")));
+    EXPECT_CALL(mock, SetAddress(ContainsRegex("\\s+")));
+
+    UsePerson5(&mock);
 }
