@@ -98,6 +98,9 @@ using testing::AllOf; // &&
 using testing::AnyOf; // ||
 using testing::Matcher;
 
+// Hamcrest Matcher
+// => 비교 표현의 확장 라이브러리
+
 TEST(PersonTest, Sample3)
 {
     MockPerson mock;
@@ -112,10 +115,12 @@ TEST(PersonTest, Sample3)
     // EXPECT_CALL(mock, Go(Ge(10), Lt(21))).Times(3);
 
     // 첫번째 인자: 5 이상이고, 20 미만  => &&
-    Matcher<int> arg1 = AllOf(Ge(5), Lt(20));
+    // Matcher<int> arg1 = AllOf(Ge(5), Lt(20));
+    auto arg1 = AllOf(Ge(5), Lt(20));
 
     // 두번째 인자: 0 미만이거나, 10 초과 => ||
-    Matcher<int> arg2 = AnyOf(Lt(0), Gt(10));
+    // Matcher<int> arg2 = AnyOf(Lt(0), Gt(10));
+    auto arg2 = AnyOf(Lt(0), Gt(10));
     EXPECT_CALL(mock, Go(arg1, arg2)).Times(3);
 
     UsePerson3(&mock);
