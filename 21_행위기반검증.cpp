@@ -13,6 +13,7 @@ public:
     virtual ~Person() { }
 
     virtual void Go(int x, int y) = 0;
+    virtual void Print(const std::vector<int>& numbers) = 0;
 };
 
 #include <gmock/gmock.h>
@@ -20,6 +21,7 @@ public:
 class MockPerson : public Person {
 public:
     MOCK_METHOD(void, Go, (int x, int y), (override));
+    MOCK_METHOD(void, Print, (const std::vector<int>& numbers), (override));
 };
 
 // 행위 기반 검증
@@ -124,4 +126,15 @@ TEST(PersonTest, Sample3)
     EXPECT_CALL(mock, Go(arg1, arg2)).Times(3);
 
     UsePerson3(&mock);
+}
+
+void UsePerson4(Person* p)
+{
+}
+
+TEST(PersonTest, Sample4)
+{
+    MockPerson mock;
+
+    UsePerson4(&mock);
 }
