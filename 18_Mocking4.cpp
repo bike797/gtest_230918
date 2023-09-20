@@ -42,7 +42,7 @@ public:
 //-----
 // 의존성 주입
 // => 제품 코드를 사용하는 방식 그대로, 테스트도 수행할 수 있습니다.
-#if 0
+#if 1
 int main()
 {
     PacketReader reader;
@@ -52,6 +52,7 @@ int main()
 }
 #endif
 
+#if 0
 #include <gmock/gmock.h>
 
 class MockPacketStream : public IPacketStream {
@@ -73,3 +74,4 @@ TEST(PacketReaderTest, Sample)
 
     reader.ReadPacket(&stream, 42);
 }
+#endif

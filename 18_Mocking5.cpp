@@ -9,6 +9,8 @@ struct Packet { };
 // => 장점: 인라인 최적화가 가능합니다.
 //    단점: 실행 시간에 정책을 교체할 수 없습니다.
 
+// 컴파일 시간에 정책을 컴파일러가 타입을 통해 코드를 생성합니다.
+
 class PacketStream {
 public:
     void AppendPacket(Packet* newPacket)
