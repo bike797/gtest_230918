@@ -32,6 +32,10 @@ class MockCalc : public Calc {
 public:
     MOCK_METHOD(int, Add, (int a, int b), (override));
     MOCK_METHOD(int, Sub, (int a, int b), (override));
+
+    // 부모가 제공하는 기능을 그대로 이용하기 위해서는 별도의 함수를 제공해야 합니다.
+    int AddImpl(int a, int b) { return Calc::Add(a, b); }
+    int SubImpl(int a, int b) { return Calc::Sub(a, b); }
 };
 
 using testing::Return;
@@ -51,8 +55,11 @@ TEST(CalcTest, Process)
     // ON_CALL(mock, Sub(100, 50)).WillByDefault(Return(50));
     // ON_CALL(mock, Add).WillByDefault(&add); // 함수
     // ON_CALL(mock, Sub).WillByDefault(&sub); // 함수
-    ON_CALL(mock, Add).WillByDefault(Adder {}); // 함수 객체
-    ON_CALL(mock, Sub).WillByDefault([](int a, int b) { return a - b; }); // 람다 표현식
+    // ON_CALL(mock, Add).WillByDefault(Adder {}); // 함수 객체
+    // ON_CALL(mock, Sub).WillByDefault([](int a, int b) { return a - b; }); // 람다 표현식
+
+    ON_CALL(mock, Add).WillByDefault([&mock](int a, int b) { return mock.AddImpl(a, b); });
+    ON_CALL(mock, Sub).WillByDefault([&mock](int a, int b) { return mock.SubImpl(a, b); });
 
     // Assert
     EXPECT_CALL(mock, Add(10, 20));
