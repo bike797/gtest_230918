@@ -42,9 +42,17 @@ TEST(PersonTest, Sample)
 
 // 2) 함수 호출 횟수
 //  : EXPECT_CALL(...).Times(N)
+//    EXPECT_CALL(...).Times(Cardinality)
+
+// 1) AtLeast
+// 2) AtMost
+
+using testing::AtLeast; // AtLeast(N) => N번 이상
+using testing::AtMost; // AtMost(N) => N번 이하
 
 void UsePerson2(Person* p)
 {
+    p->Go(10, 20);
     p->Go(10, 20);
     p->Go(10, 20);
 }
@@ -55,7 +63,9 @@ TEST(PersonTest, Sample2)
 
     // EXPECT_CALL(mock, Go(10, 20)); // 1번
 
-    EXPECT_CALL(mock, Go(10, 20)).Times(2);
+    // EXPECT_CALL(mock, Go(10, 20)).Times(2);
+    // EXPECT_CALL(mock, Go(10, 20)).Times(AtLeast(2));
+    EXPECT_CALL(mock, Go(10, 20)).Times(AtMost(2));
 
     UsePerson2(&mock);
 }
