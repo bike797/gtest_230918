@@ -26,6 +26,8 @@ public:
 
     // 주의 사항: 템플릿의 타입 인자가 2개 이상 존재하는 경우,
     //          괄호로 감싸 주어야 합니다.
+    // bool CheckMap(std::map<int, double> a, bool b) const override
+    MOCK_METHOD(bool, CheckMap, ((std::map<int, double> a), bool b), (const, override));
 
     // std::pair<bool, int> GetPair() const override
     MOCK_METHOD((std::pair<bool, int>), GetPair, (), (const, override));
