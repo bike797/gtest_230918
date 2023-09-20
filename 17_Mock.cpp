@@ -81,7 +81,10 @@ TEST(DLoggerTest, Write)
     logger.Write(INFO, "test_message");
 }
 
-// * 테스트 대역(Test Double)
+// * 테스트 대역(Test Double) / xUnit Test Pattern
+//  : Google Mock은 테스트 대역을 위한 Framework 입니다.
+//    Google Mock을 통해서 Stub / Fake를 만들 수 있습니다.
+
 // 1. Test Stub
 //  => SUT가 테스트하는데 필요한 결과를 테스트 대역을 통해 제어합니다.
 //   "특수한 상황을 시뮬레이션 하는 목적"
