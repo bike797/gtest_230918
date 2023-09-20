@@ -1,25 +1,20 @@
-// 18_Mocking4.cpp
+// 18_Mocking5.cpp
 #include <iostream>
 
 struct Packet { };
 
-// 명시적인 인터페이스
-class IPacketStream {
-public:
-    virtual ~IPacketStream() { }
+// 암묵적 인터페이스를 기반으로 하는 의존성 주입 설계
+// => C++ 단위 전략(Policy Based Design)
+//    템플릿 기반으로 정책을 컴파일 타임에 교체할 수 있습니다.
 
-    virtual void AppendPacket(Packet* newPacket) = 0;
-    virtual const Packet* GetPacket(size_t packetNumber) const = 0;
-};
-
-class PacketStream : public IPacketStream {
+class PacketStream {
 public:
-    void AppendPacket(Packet* newPacket) override
+    void AppendPacket(Packet* newPacket)
     {
         std::cout << "Append Packet" << std::endl;
     }
 
-    const Packet* GetPacket(size_t packetNumber) const override
+    const Packet* GetPacket(size_t packetNumber) const
     {
         std::cout << "GetPacket: " << packetNumber << std::endl;
         return nullptr;
@@ -28,6 +23,7 @@ public:
 
 class PacketReader {
 public:
+    template <typename IPacketStream>
     void ReadPacket(IPacketStream* stream, size_t packetNumber)
     {
         // ...
@@ -39,7 +35,7 @@ public:
 //-----
 // 의존성 주입
 // => 제품 코드를 사용하는 방식 그대로, 테스트도 수행할 수 있습니다.
-#if 0
+#if 1
 int main()
 {
     PacketReader reader;
@@ -49,6 +45,7 @@ int main()
 }
 #endif
 
+#if 0
 #include <gmock/gmock.h>
 
 class MockPacketStream : public IPacketStream {
@@ -70,3 +67,4 @@ TEST(PacketReaderTest, Sample)
 
     reader.ReadPacket(&stream, 42);
 }
+#endif
