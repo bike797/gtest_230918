@@ -133,7 +133,7 @@ using testing::ElementsAreArray;
 
 void UsePerson4(Person* p)
 {
-    p->Print({ 1, 1, 3 });
+    p->Print({ 1, 2, 3 });
 }
 
 TEST(PersonTest, Sample4)
