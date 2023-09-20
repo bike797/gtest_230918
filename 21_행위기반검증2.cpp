@@ -42,3 +42,36 @@ TEST(DogTest, Sample1)
 
     Process1(&mock);
 }
+
+void Process2(Dog* p)
+{
+    p->First();
+
+    p->Third();
+
+    p->Second();
+    p->Fourth();
+}
+
+// First -----> Second            : seq1
+//       |
+//       -----> Third  -> Fourth  : seq2
+// => testing::Sequence
+//  EXPECT_CALL(...).InSequence(seq1 ...);
+
+using testing::Sequence;
+
+TEST(DogTest, Sample2)
+{
+    Sequence seq1, seq2;
+    MockDog mock;
+
+    EXPECT_CALL(mock, First).InSequence(seq1, seq2);
+
+    EXPECT_CALL(mock, Second).InSequence(seq1);
+
+    EXPECT_CALL(mock, Third).InSequence(seq2);
+    EXPECT_CALL(mock, Fourth).InSequence(seq2);
+
+    Process2(&mock);
+}
