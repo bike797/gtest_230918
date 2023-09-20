@@ -95,10 +95,21 @@ TEST(SchedulerTest, Alarm_0am)
 
 #include <gmock/gmock.h>
 
+class MockTime : public Time {
+
+public:
+    // std::string GetCurrentTime() const override
+    MOCK_METHOD(std::string, GetCurrentTime, (), (const, override));
+};
+
+using testing::NiceMock;
+using testing::Return;
+
 // Google Mock을 이용해서 아래 테스트 케이스를 완성해보세요.
 TEST(SchedulerTest2, Alarm_10am)
 {
-    StubTime clock { "10:00" };
+    NiceMock<MockTime> clock;
+    ON_CALL(clock, GetCurrentTime).WillByDefault(Return("10:00"));
     Scheduler scheduler { &clock };
 
     int result = scheduler.Alarm();
@@ -108,7 +119,8 @@ TEST(SchedulerTest2, Alarm_10am)
 
 TEST(SchedulerTest2, Alarm_0am)
 {
-    StubTime clock { "00:00" };
+    NiceMock<MockTime> clock;
+    ON_CALL(clock, GetCurrentTime).WillByDefault(Return("00:00"));
     Scheduler scheduler { &clock };
 
     int result = scheduler.Alarm();
