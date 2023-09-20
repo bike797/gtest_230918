@@ -20,7 +20,7 @@ public:
     void Start(Logger* logger)
     {
         // ...
-        logger->Send(INFO, "/tmp", "car.log", "car start...");
+        logger->Send(INFO, "/tmp2", "car.log", "car start...");
         // ...
     }
 };
