@@ -19,6 +19,7 @@ public:
 };
 #endif
 
+#if 1
 class User {
     int age = 42;
 
@@ -28,5 +29,6 @@ protected:
 public:
     void foo() { age = 100; }
 };
+#endif
 
 #endif

@@ -58,7 +58,7 @@ TEST(CarTest, Go)
 
     car.Go();
 
-    EXPECT_TRUE(engine.IsStart());
+    EXPECT_TRUE(engine.IsStart()) << "Car가 Go 하였을 때";
 }
 
 #if 0

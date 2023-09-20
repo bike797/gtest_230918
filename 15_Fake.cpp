@@ -75,8 +75,8 @@ public:
 //    해당하는 연산자에 대한 오버로딩이 반드시 제공되어야 합니다.
 bool operator==(const User& lhs, const User& rhs)
 {
-    return false;
-    // return lhs.GetName() == rhs.GetName() && lhs.GetAge() == rhs.GetAge();
+    // return false;
+    return lhs.GetName() == rhs.GetName() && lhs.GetAge() == rhs.GetAge();
 }
 // 2) 사용자 정의 객체를 단언문을 통해 검증할 때,
 //    테스트에 실패할 경우, 원하는 형태로 표현하기 위해서는
@@ -89,6 +89,71 @@ std::ostream& operator<<(std::ostream& os, const User& user)
 TEST(RespositoryTest, Save)
 {
     FakeDatebase fake;
+    Respository repo { &fake };
+    std::string testName = "test_name";
+    int testAge = 42;
+    User expected { testName, testAge };
+
+    repo.Save(&expected);
+    User* actual = repo.Load(testName);
+
+    EXPECT_EQ(expected, *actual); // ==
+}
+
+#include <gmock/gmock.h>
+
+#if 0
+class MockDatabase : public IDatabase {
+public:
+    MOCK_METHOD(void, SaveUser, (const std::string& name, User* user), (override));
+    MOCK_METHOD(User*, LoadUser, (const std::string& name), (override));
+};
+
+using testing::NiceMock;
+TEST(RespositoryTest2, Save)
+{
+    NiceMock<MockDatabase> fake;
+    Respository repo { &fake };
+    std::string testName = "test_name";
+    int testAge = 42;
+    User expected { testName, testAge };
+    std::map<std::string, User*> data;
+    ON_CALL(fake, SaveUser).WillByDefault([&data](const std::string& name, User* p) {
+        data[name] = p;
+    });
+    ON_CALL(fake, LoadUser).WillByDefault([&data](const std::string& name) {
+        return data[name];
+    });
+
+    repo.Save(&expected);
+    User* actual = repo.Load(testName);
+
+    EXPECT_EQ(expected, *actual); // ==
+}
+#endif
+
+class MockDatabase : public IDatabase {
+    std::map<std::string, User*> data;
+
+public:
+    MockDatabase()
+    {
+        ON_CALL(*this, SaveUser).WillByDefault([this](const std::string& name, User* p) {
+            data[name] = p;
+        });
+        ON_CALL(*this, LoadUser).WillByDefault([this](const std::string& name) {
+            return data[name];
+        });
+    }
+
+    MOCK_METHOD(void, SaveUser, (const std::string& name, User* user), (override));
+    MOCK_METHOD(User*, LoadUser, (const std::string& name), (override));
+};
+
+using testing::NiceMock;
+TEST(RespositoryTest2, Save)
+{
+    NiceMock<MockDatabase> fake;
     Respository repo { &fake };
     std::string testName = "test_name";
     int testAge = 42;

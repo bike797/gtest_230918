@@ -5,7 +5,7 @@
 bool IsValidEmail(const std::string& email)
 {
     const std::regex pattern(R"((\w+)(\.|\_)?(\w*)@(\w+)(\.(\w+))+)");
-    return !std::regex_match(email, pattern);
+    return std::regex_match(email, pattern);
 }
 
 #include <gtest/gtest.h>
@@ -25,6 +25,8 @@ class EmailTest : public testing::TestWithParam<std::string> {
 // INSTANTIATE_TEST_SUITE_P(prefix, TestSuite Class, 데이터 셋)
 INSTANTIATE_TEST_SUITE_P(EmailValues, EmailTest,
     testing::Values(
+        // "hello.co.kr",
+        "chansik.yun@hello.co.kr",
         "valid@gmail.com",
         "hello@lge.com",
         "admin_h.lee@gmail.com"));

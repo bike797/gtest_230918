@@ -79,6 +79,8 @@ public:
 
 // 테스트 대역을 만드는 방법
 // => 협력 객체의 인터페이스를 구현해서 만듭니다.
+
+// Test Stub Pattern
 class TestDoubleFileSystem : public IFileSystem {
 public:
     bool IsValidFilename(const std::string& filename) override
@@ -99,6 +101,38 @@ TEST(LoggerTest, IsValidLogFilename_NameLonggerThan5Chars_ReturnsTrue)
 TEST(LoggerTest, IsValidLogFilename_NameShorterThan5Chars_ReturnsFalse)
 {
     TestDoubleFileSystem fs;
+    Logger logger { &fs };
+    std::string invalidFilename = "bad.log";
+
+    EXPECT_FALSE(logger.IsValidLogFilename(invalidFilename)) << "확장자를 제외한 파일명이 다섯글자 미만일 때";
+}
+
+//----
+#include <gmock/gmock.h>
+
+class MockFileSystem : public IFileSystem {
+public:
+    // bool IsValidFilename(const std::string& filename) override
+    MOCK_METHOD(bool, IsValidFilename, (const std::string& filename), (override));
+};
+
+using testing::NiceMock;
+using testing::Return;
+
+TEST(LoggerTest2, IsValidLogFilename_NameLonggerThan5Chars_ReturnsTrue)
+{
+    NiceMock<MockFileSystem> fs;
+    ON_CALL(fs, IsValidFilename).WillByDefault(Return(true));
+    Logger logger { &fs };
+    std::string validFilename = "valid.log";
+
+    EXPECT_TRUE(logger.IsValidLogFilename(validFilename)) << "확장자를 제외한 파일명이 다섯글자 이상일 때";
+}
+
+TEST(LoggerTest2, IsValidLogFilename_NameShorterThan5Chars_ReturnsFalse)
+{
+    NiceMock<MockFileSystem> fs;
+    ON_CALL(fs, IsValidFilename).WillByDefault(Return(true));
     Logger logger { &fs };
     std::string invalidFilename = "bad.log";
 
