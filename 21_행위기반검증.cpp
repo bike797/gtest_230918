@@ -83,7 +83,7 @@ void UsePerson3(Person* p)
 {
     p->Go(10, 20);
     p->Go(10, 20);
-    p->Go(10, 20);
+    p->Go(8, 20);
 }
 
 using testing::_;
