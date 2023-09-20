@@ -50,7 +50,7 @@ TEST(CalcTest, PressPlus)
 //   - 테스트의 결과를 신뢰할 수 있는가?
 
 // 3. TDD(Test Driven Development) vs BDD(Behavior Driven Development)
-//   1) 가독성 => 용어을 사람이 사용하는 자연어와 유사하게 구성합니다.
+//   1) 가독성 => 용어를 사람이 사용하는 자연어와 유사하게 구성합니다.
 //   2) 상태 검증 / 행위 검증
 
 #define SPEC(msg) printf("[SPEC] %s\n", msg)

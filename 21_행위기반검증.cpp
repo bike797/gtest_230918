@@ -24,6 +24,10 @@ public:
 
 // 행위 기반 검증
 //   : EXPECT_CALL
+// 1. 별도의 오류 메세지를 지정할 수 있는 기능이 존재하지 않습니다.
+// 2. 모의 객체를 통해서 검증이 수행되는 시점은
+//    모의 객체가 소멸자에 의해 파괴되는 시점에 검증이 수행됩니다.
+//   => EXPECT_CALL 만 존재합니다. ASSERT_CALL은 존재하지 않습니다.
 
 // 1) 함수 호출 여부
 void UsePerson(Person* p)
@@ -46,15 +50,16 @@ TEST(PersonTest, Sample)
 
 // 1) AtLeast
 // 2) AtMost
-
+// 3) Between
 using testing::AtLeast; // AtLeast(N) => N번 이상
 using testing::AtMost; // AtMost(N) => N번 이하
+using testing::Between; // Between(A, B) => A ~ B번
 
 void UsePerson2(Person* p)
 {
     p->Go(10, 20);
-    p->Go(10, 20);
-    p->Go(10, 20);
+    // p->Go(10, 20);
+    // p->Go(10, 20);
 }
 
 TEST(PersonTest, Sample2)
@@ -65,7 +70,8 @@ TEST(PersonTest, Sample2)
 
     // EXPECT_CALL(mock, Go(10, 20)).Times(2);
     // EXPECT_CALL(mock, Go(10, 20)).Times(AtLeast(2));
-    EXPECT_CALL(mock, Go(10, 20)).Times(AtMost(2));
+    // EXPECT_CALL(mock, Go(10, 20)).Times(AtMost(2));
+    EXPECT_CALL(mock, Go(10, 20)).Times(Between(2, 3));
 
     UsePerson2(&mock);
 }
