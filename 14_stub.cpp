@@ -92,3 +92,26 @@ TEST(SchedulerTest, Alarm_0am)
 
     EXPECT_EQ(result, 42);
 }
+
+#include <gmock/gmock.h>
+
+// Google Mock을 이용해서 아래 테스트 케이스를 완성해보세요.
+TEST(SchedulerTest2, Alarm_10am)
+{
+    StubTime clock { "10:00" };
+    Scheduler scheduler { &clock };
+
+    int result = scheduler.Alarm();
+
+    EXPECT_EQ(result, 100);
+}
+
+TEST(SchedulerTest2, Alarm_0am)
+{
+    StubTime clock { "00:00" };
+    Scheduler scheduler { &clock };
+
+    int result = scheduler.Alarm();
+
+    EXPECT_EQ(result, 42);
+}
