@@ -61,14 +61,17 @@ public:
         (override));
 };
 
-using testing::_;
+using testing::_; // Matcher
 
 TEST(CarTet, Start)
 {
     MockLogger logger;
     Car car;
 
-    EXPECT_CALL(logger, Send(_, "/tmp", _, _));
+    // EXPECT_CALL(logger, Send(_, "/tmp", _, _));
+
+    // EXPECT_CALL(logger, Send(_, _, _, _));
+    EXPECT_CALL(logger, Send); // 위와 동일한 의도입니다.
 
     car.Start(&logger);
 }
