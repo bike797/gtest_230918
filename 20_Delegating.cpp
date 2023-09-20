@@ -37,13 +37,16 @@ using testing::Return;
 
 TEST(CalcTest, Process)
 {
+    // Arrange
     MockCalc mock;
     ON_CALL(mock, Add(10, 20)).WillByDefault(Return(30));
     ON_CALL(mock, Sub(100, 50)).WillByDefault(Return(50));
 
+    // Assert
     EXPECT_CALL(mock, Add(10, 20));
     EXPECT_CALL(mock, Sub(100, 50));
 
+    // Act
     // std::cout << mock.Add(10, 20) << std::endl;
     // std::cout << mock.Sub(100, 50) << std::endl;
     Process(&mock);
