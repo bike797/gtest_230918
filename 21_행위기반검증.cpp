@@ -58,8 +58,8 @@ using testing::Between; // Between(A, B) => A ~ B번
 void UsePerson2(Person* p)
 {
     p->Go(10, 20);
-    // p->Go(10, 20);
-    // p->Go(10, 20);
+    p->Go(10, 20);
+    p->Go(10, 20);
 }
 
 TEST(PersonTest, Sample2)
@@ -74,4 +74,27 @@ TEST(PersonTest, Sample2)
     EXPECT_CALL(mock, Go(10, 20)).Times(Between(2, 3));
 
     UsePerson2(&mock);
+}
+
+// 3) 함수 호출 인자
+void UsePerson3(Person* p)
+{
+    p->Go(10, 20);
+    p->Go(11, 20);
+    p->Go(10, 20);
+}
+
+using testing::_;
+
+TEST(PersonTest, Sample3)
+{
+    MockPerson mock;
+
+    // EXPECT_CALL(mock, Go(10, 20)).Times(3);
+    // EXPECT_CALL(mock, Go).Times(3); // 인자와 상관없이 3번 호출되는 것을 검증합니다.
+
+    // 첫번째 인자가 10이고, 두번째 인자는 상관없이 3번 호출됩니다.
+    EXPECT_CALL(mock, Go(10, _)).Times(3);
+
+    UsePerson3(&mock);
 }
