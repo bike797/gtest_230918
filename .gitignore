@@ -7,3 +7,4 @@
 build/
 gcovr*/
 test/googletest/
+test/test_calc
