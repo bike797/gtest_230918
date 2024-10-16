@@ -1,6 +1,8 @@
 // 2_3A.cpp
 //  SUT(System Under Test, 테스트 대상 시스템)
 //   - CUT(Class Under Test / Code Under Test)
+
+//예제)Calc 라는 클래스를 신규로 개발 하려고 하는 경우의 unit test TEST CASE 를 작성해 보자
 class Calc {
 public:
     double Display() { return 0.0; }
@@ -53,7 +55,7 @@ TEST(CalcTest, PressPlus)
 //   1) 가독성 => 용어를 사람이 사용하는 자연어와 유사하게 구성합니다.
 //   2) 상태 검증 / 행위 검증
 
-#define SPEC(msg) printf("[SPEC] %s\n", msg)
+//#define SPEC(msg) printf("[ SPEC     ] %s\n", msg)
 
 TEST(CalcTest, PressPlus2)
 {
@@ -77,5 +79,5 @@ TEST(CalcTest, PressPlus2)
 #endif
     // xUnit Test Framework는 다양한 단언문을 제공하고 있습니다.
     //  : ASSERT_EQ/NE/LT/GT/LE/GE ...
-    ASSERT_EQ(calc->Display(), 20) << "10 더하기 10 하였을 때";
+    ASSERT_EQ(calc->Display(), 20) << "10 더하기 10 하였을 때 20 이 출력되야 함";
 }

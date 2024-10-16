@@ -6,7 +6,7 @@
 // - Google Test는 다양한 환경에서 동작하는 main을 제공합니다.
 //   gtest_main.cc
 // - 라이브러리에 main을 포함시키면, 매번 main을 작성할 필요가 없습니다.
-#if 0
+#if 1
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);

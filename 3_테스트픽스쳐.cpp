@@ -14,7 +14,7 @@ public:
 
 #include <gtest/gtest.h>
 
-#define SPEC(msg) printf("[SPEC] %s\n", msg)
+#define SPEC(msg) printf("[ SPEC     ] %s\n", msg)
 
 // 1. Test Fixture
 // 정의: xUnit Test Framework에서 SUT를 실행하기 위해 준비해야 하는 모든 것을
@@ -48,6 +48,7 @@ TEST(CalcTest, PressPlus)
 
 TEST(CalcTest, PressMinus)
 {
+    SPEC("10 더하기 10을 하였을 때, 20의 결과가 디스플레이 되는지 검증한다.");
     Calc* calc = new Calc;
 
     calc->Enter(10);
