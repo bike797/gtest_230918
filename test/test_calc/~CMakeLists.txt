@@ -1,0 +1,6 @@
+
+# add; link; and catalog test_hello tests
+add_executable(test_defaults "D:/study/gtest_230918/test/test_calc/calc_test.cpp")
+target_include_directories(test_defaults PUBLIC ${CMAKE_SOURCE_DIR})
+target_link_libraries(test_defaults gtest gtest_main ${PROJECT_NAME})
+add_test(NAME test_defaults COMMAND test_defaults)

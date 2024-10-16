@@ -1,0 +1,1 @@
+cmake -S ./%1 -B ./build

@@ -1,0 +1,212 @@
+cmake_minimum_required(VERSION 3.0)
+project(SLAMUnitTest)
+
+set(CMAKE_BUILD_TYPE DEBUG)
+set(CMAKE_VERBOSE_MAKEFILE true)
+message( STATUS "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
+
+add_definitions(-DLGRP_LOG_REPLAY)
+add_definitions(-DSLAM_UTEST)
+
+# Define 3rdparty-related variables
+add_definitions( -DBOOST_ALL_NO_LIB )
+set( Boost_USE_STATIC_LIBS ON )
+find_package(Boost REQUIRED COMPONENTS filesystem chrono atomic thread system)
+find_package(OpenCV REQUIRED )
+
+set(SOURCE_CODE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../SourceCode)
+set(CommonFixed ${CMAKE_CURRENT_SOURCE_DIR}/../../SourceCode/CommonFixed)
+set(VariableSource ${CMAKE_CURRENT_SOURCE_DIR}/../../SourceCode/VariableSource)
+set(ThirdParty ${CMAKE_CURRENT_SOURCE_DIR}/../../SourceCode/3rdparty)
+#set(LogReplaySLAM ${CMAKE_CURRENT_SOURCE_DIR}/../../../simulator/LGRPLogReplay/SLAMService)
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CommonFixed}/LGRP
+	${CommonFixed}/LGRP/inc
+	${CommonFixed}/LGRP/device
+	${CommonFixed}/domain
+	${CommonFixed}/domain/service/SLAMService
+	${CommonFixed}/domain/service/SLAMService/IterativeLearningManager
+	${CommonFixed}/domain/service/SLAMService/VSLAM
+	${CommonFixed}/domain/service/SLAMService/VSLAM/fem2lib
+	${VariableSource}
+	${VariableSource}/domain
+	${ThirdParty}
+#	${LogReplaySLAM}
+	${Boost_INCLUDE_DIRS}
+	${OpenCV_INCLUDE_DIRS}
+)
+
+#----------------LGRP-------------------
+set(LGRPLib "LGRP")
+message("target: " ${LGRPLib})
+
+FILE(GLOB_RECURSE target_files ${CommonFixed}/LGRP/device/*.cpp
+							   ${CommonFixed}/LGRP/src/*.c
+							   ${CommonFixed}/LGRP/src/*.cpp
+)
+LIST(FILTER target_files EXCLUDE REGEX "AService.cpp")		# Dummy/FakeService.cpp defines the class 'AService'
+LIST(FILTER target_files EXCLUDE REGEX "AServiceMessageSender.cpp")
+LIST(FILTER target_files EXCLUDE REGEX "AServiceUserMessageSender.cpp")
+LIST(FILTER target_files EXCLUDE REGEX "CServiceMessagePublisher.cpp")
+LIST(FILTER target_files EXCLUDE REGEX "CPortMap.cpp")
+
+add_library(${LGRPLib} ${target_files})
+
+#--------------3rd party----------------
+set(ThirdPartyLib "3rdparty")
+message("target: " ${ThirdPartyLib})
+
+#file(GLOB target_files ${ThirdParty}/snappy/*.cc)
+#list(APPEND srcs ${target_files})
+file(GLOB target_files ${ThirdParty}/xmlParser/*.cpp)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${ThirdParty}/xmlParser/Util/*.c)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${CMAKE_CURRENT_LIST_DIR}/../Dummy/Fake*.cpp)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${CMAKE_CURRENT_LIST_DIR}/../Dummy/Spy*.cpp)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${CMAKE_CURRENT_LIST_DIR}/../Dummy/Stub*.cpp)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${CMAKE_CURRENT_LIST_DIR}/../Dummy/UTestHelper.cpp)
+list(APPEND srcs ${target_files})
+file(GLOB target_files ${ThirdParty}/DBoW2/src/*.cpp)
+list(APPEND srcs ${target_files})
+
+add_library(${ThirdPartyLib} ${srcs})
+
+target_include_directories(${ThirdPartyLib} PUBLIC ${ThirdParty}/xmlParser)
+target_include_directories(${ThirdPartyLib} PUBLIC ${ThirdParty}/DBoW2/include)
+target_include_directories(${ThirdPartyLib} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../Dummy)
+
+#-------------SLAM service---------------
+set(SLAMLib "slamservice")
+message("target: " ${SLAMLib})
+
+FILE (GLOB_RECURSE VSLAM_SRC_FILES ${CommonFixed}/domain/service/SLAMService/VSLAM/*.cpp)
+FILE (GLOB_RECURSE VSLAM_HRD_FILES ${CommonFixed}/domain/service/SLAMService/VSLAM/*.h
+								   ${CommonFixed}/domain/service/SLAMService/VSLAM/*.hpp)
+
+add_library(${SLAMLib}
+	${CommonFixed}/domain/service/SLAMService/CSLAMService.cpp
+	${CommonFixed}/domain/service/SLAMService/CSLAMService.hpp
+	${CommonFixed}/domain/service/SLAMService/CSLAMService_FileIO.hpp
+	${CommonFixed}/domain/service/SLAMService/CSLAMService_Publisher.hpp
+	${CommonFixed}/domain/service/SLAMService/IterativeLearningManager/CIterativeLearningManager.cpp
+	${CommonFixed}/domain/service/SLAMService/IterativeLearningManager/AIterativeLearningStrategy.cpp
+	${CommonFixed}/domain/service/SLAMService/IterativeLearningManager/CILBaseOnTimeStrategy.cpp
+	${CommonFixed}/domain/service/SLAMService/IterativeLearningManager/CILBaseOnIlluminanceStrategy.cpp
+	${CommonFixed}/domain/common/CRPMath.cpp
+	${CommonFixed}/domain/util/GridMap/CGridMap.cpp
+	${CommonFixed}/domain/util/Viewer/CMapViewerDrawing.cpp
+	${VariableSource}/domain/service/NavigationService/CMapBuilder.cpp
+	${VariableSource}/domain/service/NavigationService/MapBuilderComponents.cpp
+	${VariableSource}/domain/servicemessage/MotionServiceMessage.cpp
+	${VariableSource}/domain/servicemessage/DataAccessServiceMessage.cpp
+
+	${VSLAM_SRC_FILES}
+	${VSLAM_HRD_FILES}
+)
+
+target_link_libraries(${SLAMLib}
+	-Wl,--no-as-needed
+	dl
+	m
+	rt
+	${LGRPLib}
+	${ThirdPartyLib}
+	${Boost_LIBRARIES}
+	${OpenCV_LIBS}
+)
+
+#--------------Coverage------------------
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+include(CodeCoverage)
+set(CMAKE_CXX_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
+
+#-------------GoogleTest-----------------
+set(GTEST_INCLUDE_DIR include/gtest/)
+include_directories(${GTEST_INCLUDE_DIR})
+find_library(GoogleTestLib
+    libgoogletest.a
+    PATHS ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
+
+#-------------Executables----------------
+set(CSLAMServiceUTest "CSLAMServiceUTest")
+message("target : " ${CSLAMServiceUTest})
+file(GLOB_RECURSE SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/tests/CSLAMService_utest*.cpp)
+file(GLOB_RECURSE UtilFiles ${CMAKE_CURRENT_SOURCE_DIR}/util/*.cpp)
+add_executable(${CSLAMServiceUTest}
+	${CMAKE_CURRENT_SOURCE_DIR}/tests/CSLAMService_utest.hpp
+	${SourceFiles}
+	${UtilFiles}
+)
+target_link_libraries(${CSLAMServiceUTest}
+	pthread
+	gcov
+	${GoogleTestLib}
+	${SLAMLib}
+	${OpenCV_LIBS}
+)
+
+set(ScenarioTest "ScenarioTest")
+message("target : " ${ScenarioTest})
+file(GLOB SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/tests/CSLAMService_scenariotest*.cpp)
+file(GLOB_RECURSE UtilFiles ${CMAKE_CURRENT_SOURCE_DIR}/util/*.cpp)
+add_executable(${ScenarioTest}
+	${SourceFiles}
+	${UtilFiles}
+)
+target_link_libraries(${ScenarioTest}
+	pthread
+	gcov
+	${GoogleTestLib}
+	${SLAMLib}
+	${OpenCV_LIBS}
+)
+
+set(VSLAMTest "VSLAMTest")
+message("target : " ${VSLAMTest})
+file(GLOB_RECURSE SourceFiles ${CMAKE_CURRENT_SOURCE_DIR}/tests/VSLAM/*.cpp)
+file(GLOB_RECURSE UtilFiles ${CMAKE_CURRENT_SOURCE_DIR}/util/*.cpp)
+add_executable(${VSLAMTest}
+	${SourceFiles}
+	${UtilFiles}
+)
+target_link_libraries(${VSLAMTest}
+	pthread
+	gcov
+	${GoogleTestLib}
+	${SLAMLib}
+	${OpenCV_LIBS}
+)
+
+set(IterativeTest "IterativeTest")
+message("target : " ${IterativeTest})
+file(GLOB_RECURSE IterativeFiles ${CMAKE_CURRENT_SOURCE_DIR}/tests/CIterative_utest.cpp)
+add_executable(${IterativeTest}
+	${IterativeFiles}
+)
+target_link_libraries(${IterativeTest}
+	pthread
+	gcov
+	${GoogleTestLib}
+	${SLAMLib}
+	${OpenCV_LIBS}
+)
+
+#foreach(fullFilename ${SourceFiles})
+#    file(RELATIVE_PATH filename ${CMAKE_CURRENT_SOURCE_DIR}/tests ${fullFilename})
+#    string(REPLACE ".cpp" "" name ${filename})
+#    add_executable(${name} ${fullFilename})
+#    target_link_libraries(${name}
+#		pthread
+#		gcov
+#		${GoogleTestLib}
+#		${SLAMLib}
+#		${OpenCV_LIBS}
+#    )
+#endforeach(fullFilename ${SourceFiles})
