@@ -12,13 +12,19 @@
   - 프로젝트내 test/ 폴더 생성  
     - 테스트 파일(또는 모듈)이 반드시 프로젝트 소스의 일부가 아니라는 것을 투명하게 표시하는 것이 도움이 됨  
     - 개발자와 CMake 모두에게 정적 라이브러리에 대해 이러한 테스트를 빌드/링크하고 있으며 소스 자체가 아니라는 것을 명확히 하는 데 도움이 됨  
-  - gooletest를 서브모듈로 추가  
+  - gooletest를 서브모듈로 추가      
     ```
     git submodule add https://github.com/google/googletest.git
     git submodule update --init --recursive
     ```
+    
     . --init: 서브모듈이 아직 초기화되지 않은 경우, 해당 서브모듈을 초기화합니다. 즉, 서브모듈의 Git 저장소를 클론하여 로컬에 생성합니다.  
     . --recursive: 서브모듈이 또 다른 서브모듈을 포함하고 있는 경우, 이 옵션을 사용하면 모든 하위 서브모듈도 재귀적으로 초기화하고 업데이트합니다.  
+    
+    프로젝트를 처음 로컬로 다운 받은 경우  
+    submodule의 소스를 업데이트할 필요가 있는 경우  
+    해당 경로에 파일이 존재하지 않는 경우  
+    `git submodule update --init --recursive` 명령을 실행한다.  
   - cmake 파일에서 종속성을 연결하고 구성  
     ```
     # hook and configure dependencies

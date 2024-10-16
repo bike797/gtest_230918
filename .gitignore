@@ -5,3 +5,4 @@
 ~*.pptx
 .vscode/*
 build/
+gcovr*/

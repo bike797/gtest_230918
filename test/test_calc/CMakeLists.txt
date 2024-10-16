@@ -34,11 +34,12 @@ link_directories(
 #set(CMAKE_C_FLAGS "-g -O1 -fprofile-arcs -ftest-coverage")
 #set(CMAKE_CXX_FLAGS "-g -O1 --coverage")
 #set(CMAKE_C_FLAGS "-g -O1 --coverage")
-set(CMAKE_CXX_FLAGS "-g -O0 --coverage")
-set(CMAKE_C_FLAGS "-g -O0 --coverage")
+set(CMAKE_CXX_FLAGS "-g -O1 --coverage")
+set(CMAKE_C_FLAGS "-g -O1 --coverage")
 
 option(ENABLE_COVERAGE "Enable coverage" OFF)
 
+# --coverage 명령은 gcc 3.0 이상에서 지원
 if(ENABLE_COVERAGE)
     add_compile_options(--coverage)
     add_link_options(--coverage)

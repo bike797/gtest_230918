@@ -1,1 +1,2 @@
-make ./build
+cd ./build
+make -j 8
